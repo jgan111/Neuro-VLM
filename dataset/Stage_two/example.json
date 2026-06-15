@@ -1,0 +1,41 @@
+[
+  {
+    "image": "/home/zhangxw/share_data/VQA-RAD/test-brain/image_82.png",
+    "conversations": [
+      {
+        "from": "human",
+        "value": "what lobe of the brain is the lesion located in?\n<image>"
+      },
+      {
+        "from": "gpt",
+        "value": "right frontal lobe"
+      }
+    ]
+  },
+  {
+    "image": "/home/zhangxw/share_data/VQA-RAD/test-brain/image_88.png",
+    "conversations": [
+      {
+        "from": "human",
+        "value": "in which two ventricles can calcifications be seen on this ct scan?\n<image>"
+      },
+      {
+        "from": "gpt",
+        "value": "the 3rd ventricle and the lateral ventricles"
+      }
+    ]
+  },
+  {
+    "image": "/home/zhangxw/share_data/VQA-RAD/test-brain/image_92.png",
+    "conversations": [
+      {
+        "from": "human",
+        "value": "what abnormality is seen on the left side of the frontal lobe?\n<image>"
+      },
+      {
+        "from": "gpt",
+        "value": "regression of left frontal mass"
+      }
+    ]
+  }
+]

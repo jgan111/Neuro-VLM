@@ -1,0 +1,30 @@
+[
+     {
+        "image": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14.png",
+        "mask": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14_L44.png",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\nIdentify and segment the Right Cerebral White Matter. Focus on the right anatomical area."
+            },
+            {
+                "from": "gpt",
+                "value": "<SEG>"
+            }
+        ]
+    },
+    {
+        "image": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14.png",
+        "mask": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14_L45.png",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\nPlease output the segmentation mask for the Left Cerebral White Matter (found in the left region)."
+            },
+            {
+                "from": "gpt",
+                "value": "<SEG>"
+            }
+        ]
+    }   
+]

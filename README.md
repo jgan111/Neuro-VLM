@@ -2,14 +2,13 @@
 
 Official implementation of **Neuro-VLM**, an anatomy-aware vision-language model for brain imaging visual question answering.
 
-This repository contains training, evaluation, and demo code built around Qwen2.5-VL, LoRA fine-tuning, and optional LISA/SAM-style segmentation modules.
+This repository contains training, evaluation, and demo code built around Qwen2.5-VL and LoRA fine-tuning.
 
 ## Highlights
 
 - Brain imaging visual question answering with Qwen2.5-VL backbones.
 - Supervised fine-tuning support for image-text and video-text conversations.
 - LoRA-based training with configurable rank, alpha, dropout, and target modules.
-- Optional LISA/SAM modules for segmentation-aware learning.
 - Batch evaluation scripts and a Gradio web demo.
 
 ## Repository Structure
@@ -18,7 +17,7 @@ This repository contains training, evaluation, and demo code built around Qwen2.
 Neuro-VLM/
 +-- qwenvl/
 |   +-- data/                  # Dataset loading and Qwen-VL preprocessing
-|   +-- train/                 # Training, trainer, LoRA, LISA, and SAM code
+|   +-- train/                 # Training, trainer, and LoRA code
 +-- train_py/
 |   +-- val.py                 # Validation / checkpoint inference
 |   +-- val_base.py            # Base-model validation
@@ -90,13 +89,12 @@ python qwenvl/train/train.py \
   --gradient_checkpointing True
 ```
 
-For LISA/SAM-style segmentation-aware training, use:
+Additional training variants are available in `qwenvl/train/`. For example:
 
 ```bash
 python qwenvl/train/train_LISA_two.py \
   --model_name_or_path /path/to/base/model \
   --dataset_use my_dataset \
-  --sam_checkpoint /path/to/sam_checkpoint.pth \
   --output_dir outputs/neuro-vlm-lisa \
   --per_device_train_batch_size 1 \
   --gradient_accumulation_steps 8 \
@@ -140,4 +138,4 @@ Add `--share` if you want Gradio to create a public share link.
 
 ## Acknowledgements
 
-This project builds on Qwen2.5-VL, Hugging Face Transformers, PEFT/LoRA, Unsloth, Gradio, and Segment Anything components.
+This project builds on Qwen2.5-VL, Hugging Face Transformers, PEFT/LoRA, Unsloth, and Gradio.
