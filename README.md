@@ -24,11 +24,7 @@ Neuro-VLM/
 +-- train/
 |   +-- data/
 |   +-- train/
-|   |   +-- Stage_one.py
-|   |   +-- Stage_two.py
 |   +-- train.sh/
-|       +-- Stage_one.sh
-|       +-- Stage_two.sh
 +-- value_py/
 |   +-- val.py
 |   +-- val_base.py
