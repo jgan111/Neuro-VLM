@@ -24,18 +24,5 @@
         "value": "the 3rd ventricle and the lateral ventricles"
       }
     ]
-  },
-  {
-    "image": "/home/zhangxw/share_data/VQA-RAD/test-brain/image_92.png",
-    "conversations": [
-      {
-        "from": "human",
-        "value": "what abnormality is seen on the left side of the frontal lobe?\n<image>"
-      },
-      {
-        "from": "gpt",
-        "value": "regression of left frontal mass"
-      }
-    ]
   }
 ]
