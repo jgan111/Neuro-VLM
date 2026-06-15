@@ -1,5 +1,18 @@
 [
-     {
+    {
+        "image": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14.png",
+        "conversations": [
+            {
+                "from": "human",
+                "value": "<image>\nWhat's in the image?"
+            },
+            {
+                "from": "gpt",
+                "value": "It's a MRI brain axial T1 image."
+            }
+        ]
+    },
+    {
         "image": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14.png",
         "mask": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14_L44.png",
         "conversations": [
