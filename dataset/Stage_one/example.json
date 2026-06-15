@@ -1,7 +1,7 @@
 [
      {
-        "image": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14.png",
-        "mask": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14_L44.png",
+        "image": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14.png",
+        "mask": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14_L44.png",
         "conversations": [
             {
                 "from": "human",
@@ -14,8 +14,8 @@
         ]
     },
     {
-        "image": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14.png",
-        "mask": "/home/zhangxw/share_data/VLD/image_1/zhao_hong/zhao_hong_Axial_T1_Slice14_L45.png",
+        "image": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14.png",
+        "mask": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14_L45.png",
         "conversations": [
             {
                 "from": "human",
