@@ -2,57 +2,93 @@
 
 Official implementation of **Neuro-VLM**, an anatomy-aware vision-language model for brain imaging visual question answering.
 
-This repository contains training, evaluation, and demo code built around Qwen2.5-VL and LoRA fine-tuning.
+This repository provides example data, two-stage training scripts, validation scripts, and core data/model utilities for adapting Qwen2.5-VL to brain imaging VQA.
 
-## Highlights
+## Overview
 
-- Brain imaging visual question answering with Qwen2.5-VL backbones.
-- Supervised fine-tuning support for image-text and video-text conversations.
-- LoRA-based training with configurable rank, alpha, dropout, and target modules.
-- Batch evaluation scripts and a Gradio web demo.
+Neuro-VLM is designed for brain imaging question answering. The current codebase includes:
+
+- Stage-one training for anatomy-aware visual representation learning.
+- Stage-two VQA fine-tuning with LoRA adapters.
+- Example annotations and images for both training stages.
+- Validation scripts for base models and fine-tuned checkpoints.
+- Qwen2.5-VL data preprocessing, trainer utilities, and model argument definitions.
 
 ## Repository Structure
 
 ```text
 Neuro-VLM/
-+-- qwenvl/
-|   +-- data/                  # Dataset loading and Qwen-VL preprocessing
-|   +-- train/                 # Training, trainer, and LoRA code
-+-- train_py/
-|   +-- val.py                 # Validation / checkpoint inference
-|   +-- val_base.py            # Base-model validation
-|   +-- web_demo_mm.py         # Gradio demo
++-- dataset/
+|   +-- Stage_one/
+|   |   +-- example.json
+|   |   +-- zhao_hong_Axial_T1_Slice14.png
+|   |   +-- zhao_hong_Axial_T1_Slice14_L44.png
+|   |   +-- zhao_hong_Axial_T1_Slice14_L45.png
+|   +-- Stage_two/
+|       +-- example.json
+|       +-- image_82.png
+|       +-- image_88.png
+|       +-- image_92.png
++-- train/
+|   +-- data/
+|   |   +-- __init__.py
+|   |   +-- data_qwen.py
+|   |   +-- data_qwen_packed.py
+|   |   +-- data_LISA.py
+|   |   +-- rope2d.py
+|   +-- train/
+|   |   +-- Stage_one.py
+|   |   +-- Stage_two.py
+|   |   +-- argument.py
+|   |   +-- trainer.py
+|   |   +-- train.py
+|   |   +-- train_unsolth.py
+|   |   +-- verify_fixed_batch_v2.py
+|   +-- train.sh/
+|       +-- Stage_one.sh
+|       +-- Stage_two.sh
++-- value_py/
+|   +-- val.py
+|   +-- val_base.py
 +-- README.md
 ```
 
-## Environment
+## Installation
 
-Create a Python environment and install the core dependencies:
+Create a Python environment and install the main dependencies:
 
 ```bash
 pip install torch torchvision
-pip install transformers accelerate peft pillow tqdm gradio qwen-vl-utils
+pip install transformers accelerate peft pillow tqdm safetensors
+pip install unsloth qwen-vl-utils
 ```
 
-Optional dependencies may be needed depending on the training script you use:
+Optional packages such as `deepspeed` and `flash-attn` can be installed according to your CUDA, PyTorch, and GPU environment.
 
-```bash
-pip install deepspeed flash-attn unsloth safetensors
+## Data Format
+
+The repository includes small examples under `dataset/Stage_one/` and `dataset/Stage_two/`.
+
+Stage-one examples use image-mask paired annotations with a conversation field:
+
+```json
+{
+  "image": "/path/to/image.png",
+  "mask": "/path/to/mask.png",
+  "conversations": [
+    {
+      "from": "human",
+      "value": "<image>\nIdentify the target anatomical region."
+    },
+    {
+      "from": "gpt",
+      "value": "<SEG>"
+    }
+  ]
+}
 ```
 
-Install optional packages according to your CUDA, PyTorch, and GPU environment.
-
-## Data Preparation
-
-Dataset entries are configured in:
-
-```text
-qwenvl/data/__init__.py
-```
-
-Update the `annotation_path` and `data_path` fields to match your local dataset paths.
-
-The annotation files are expected to follow a conversation-style VQA format. A typical item looks like:
+Stage-two examples use standard VQA annotations:
 
 ```json
 {
@@ -60,82 +96,85 @@ The annotation files are expected to follow a conversation-style VQA format. A t
   "conversations": [
     {
       "from": "human",
-      "value": "<image>\nWhat abnormality is visible?"
+      "value": "what lobe of the brain is the lesion located in?\n<image>"
     },
     {
       "from": "gpt",
-      "value": "glioma"
+      "value": "right frontal lobe"
     }
   ]
 }
 ```
 
-The data loader also supports JSONL files and video tokens in the Qwen-VL preprocessing path.
+Dataset aliases and local annotation paths are configured in:
+
+```text
+train/data/__init__.py
+```
+
+Update the `annotation_path` and `data_path` values before training on your own data.
 
 ## Training
 
-A standard Qwen2.5-VL fine-tuning entry point is:
+The launch scripts are provided in:
 
-```bash
-python qwenvl/train/train.py \
-  --model_name_or_path Qwen/Qwen2.5-VL-3B-Instruct \
-  --dataset_use my_dataset \
-  --output_dir outputs/neuro-vlm \
-  --per_device_train_batch_size 1 \
-  --gradient_accumulation_steps 8 \
-  --learning_rate 2e-5 \
-  --num_train_epochs 3 \
-  --bf16 True \
-  --gradient_checkpointing True
+```text
+train/train.sh/Stage_one.sh
+train/train.sh/Stage_two.sh
 ```
 
-Additional training variants are available in `qwenvl/train/`. For example:
+Edit the model path, dataset alias, output directory, batch size, and GPU settings in these scripts before running.
+
+Run stage one:
 
 ```bash
-python qwenvl/train/train_LISA_two.py \
-  --model_name_or_path /path/to/base/model \
-  --dataset_use my_dataset \
-  --output_dir outputs/neuro-vlm-lisa \
-  --per_device_train_batch_size 1 \
-  --gradient_accumulation_steps 8 \
-  --learning_rate 2e-5 \
-  --num_train_epochs 3 \
-  --bf16 True
+bash train/train.sh/Stage_one.sh
 ```
 
-Adjust paths, batch sizes, precision settings, and distributed training options for your hardware.
-
-## Evaluation
-
-Batch validation scripts are provided in `train_py/`:
+Run stage two:
 
 ```bash
-python train_py/val_base.py
-python train_py/val.py
+bash train/train.sh/Stage_two.sh
 ```
 
-Before running evaluation, update the model, checkpoint, dataset, and output paths inside the scripts to match your environment.
+The main Python entry points are:
 
-## Demo
+```text
+train/train/Stage_one.py
+train/train/Stage_two.py
+```
 
-Launch the Gradio demo with:
+Training arguments such as `model_name_or_path`, `dataset_use`, `lora_r`, `lora_alpha`, `lora_dropout`, `model_max_length`, and optimizer settings are defined through Hugging Face argument parsing in:
+
+```text
+train/train/argument.py
+```
+
+## Validation
+
+Validation scripts are stored in:
+
+```text
+value_py/val_base.py
+value_py/val.py
+```
+
+Use `val_base.py` to evaluate a base Qwen2.5-VL model and `val.py` to evaluate a fine-tuned adapter/checkpoint. Before running either script, update the model path, checkpoint path, input JSON path, and output directory inside the file.
+
+Example:
 
 ```bash
-python train_py/web_demo_mm.py \
-  --checkpoint-path /path/to/checkpoint \
-  --server-name 127.0.0.1 \
-  --server-port 7860
+python value_py/val_base.py
+python value_py/val.py
 ```
-
-Add `--share` if you want Gradio to create a public share link.
 
 ## Notes
 
-- Large model checkpoints and datasets are not included in this repository.
-- Several scripts contain local absolute paths; replace them with paths on your machine before running.
-- Some workflows assume CUDA GPUs and may require significant GPU memory.
-- If using offline model or dataset caches, set the relevant Hugging Face environment variables before running.
+- Large model checkpoints and full datasets are not included.
+- Several scripts contain local absolute paths and should be edited for your machine.
+- The code is intended for GPU execution; memory requirements depend on the selected Qwen2.5-VL backbone and batch size.
+- Some scripts set Hugging Face offline environment variables. Disable or adjust those settings if you want to download models or processors automatically.
 
 ## Acknowledgements
 
-This project builds on Qwen2.5-VL, Hugging Face Transformers, PEFT/LoRA, Unsloth, and Gradio.
+This project builds on Qwen2.5-VL, Hugging Face Transformers, PEFT/LoRA, Unsloth, and related open-source tooling.
