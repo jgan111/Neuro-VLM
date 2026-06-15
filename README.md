@@ -20,30 +20,12 @@ Neuro-VLM is designed for brain imaging question answering. The current codebase
 Neuro-VLM/
 +-- dataset/
 |   +-- Stage_one/
-|   |   +-- example.json
-|   |   +-- zhao_hong_Axial_T1_Slice14.png
-|   |   +-- zhao_hong_Axial_T1_Slice14_L44.png
-|   |   +-- zhao_hong_Axial_T1_Slice14_L45.png
 |   +-- Stage_two/
-|       +-- example.json
-|       +-- image_82.png
-|       +-- image_88.png
-|       +-- image_92.png
 +-- train/
 |   +-- data/
-|   |   +-- __init__.py
-|   |   +-- data_qwen.py
-|   |   +-- data_qwen_packed.py
-|   |   +-- data_LISA.py
-|   |   +-- rope2d.py
 |   +-- train/
 |   |   +-- Stage_one.py
 |   |   +-- Stage_two.py
-|   |   +-- argument.py
-|   |   +-- trainer.py
-|   |   +-- train.py
-|   |   +-- train_unsolth.py
-|   |   +-- verify_fixed_batch_v2.py
 |   +-- train.sh/
 |       +-- Stage_one.sh
 |       +-- Stage_two.sh
