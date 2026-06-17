@@ -1,6 +1,6 @@
 [
     {
-        "image": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14.png",
+        "image": "images/941_S_5124_Axial_T2_Slice12.png",
         "conversations": [
             {
                 "from": "human",
@@ -8,35 +8,33 @@
             },
             {
                 "from": "gpt",
-                "value": "It's a MRI brain axial T1 image."
+                "value": "It's a brain axial T2 image."
             }
         ]
     },
     {
-        "image": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14.png",
-        "mask": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14_L44.png",
+        "images": "images/941_S_5124_Axial_T2_Slice12.png, images/941_S_5124_Axial_T2_Slice12_L44.png",
         "conversations": [
             {
                 "from": "human",
-                "value": "<image>\nIdentify and segment the Right Cerebral White Matter. Focus on the right anatomical area."
+                "value": "<image>\n<image>\nWhat's the relationship between the first and second image?"
             },
             {
                 "from": "gpt",
-                "value": "<SEG>"
+                "value": "The second image depicts the Right Cerebral White Matter region of the brain from the first image."
             }
         ]
     },
     {
-        "image": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14.png",
-        "mask": "/home/zhangxw/share_data/VLD/image_1/example/example_Axial_T1_Slice14_L45.png",
+        "images": "images/941_S_5124_Axial_T2_Slice12.png, images/941_S_5124_Axial_T2_Slice12_L45.png",
         "conversations": [
             {
                 "from": "human",
-                "value": "<image>\nPlease output the segmentation mask for the Left Cerebral White Matter (found in the left region)."
+                "value": "<image>\n<image>\nWhat's the relationship between the first and second image?"
             },
             {
                 "from": "gpt",
-                "value": "<SEG>"
+                "value": "The second image depicts the Left Cerebral White Matter region of the brain from the first image."
             }
         ]
     }   
